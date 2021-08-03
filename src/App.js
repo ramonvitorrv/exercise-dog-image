@@ -6,6 +6,7 @@ class App extends React.Component {
 
     this.state = {
       dogPicture: '',
+      raca: '',
       loading: true,
     };
 
@@ -14,6 +15,14 @@ class App extends React.Component {
 
   componentDidMount() {
     this.fetchRandomDog();
+  }
+
+  shouldComponentUpdate(_nextProps, nextState) {
+    // const { dogPicture } = this.state;
+    if (nextState.dogPicture.includes('terrier')) {
+      return false;
+    }
+    return true;
   }
 
   async fetchRandomDog() {
@@ -25,18 +34,25 @@ class App extends React.Component {
         this.setState({
           loading: false,
           dogPicture: data.message,
+          raca: (data.message.split('/')[4]),
         });
+        const messageStorage = localStorage;
+        messageStorage.setItem('imgURL', data.message);
+        console.log();
       },
     );
   }
 
   render() {
-    const { dogPicture, loading } = this.state;
+    const { dogPicture, raca, loading } = this.state;
     const loadingElement = <span>Loading...</span>;
     const imgDog = <img src={ dogPicture } alt={ dogPicture } />;
 
     return (
       <main>
+        <div>
+          <h1>{ `Raça: ${raca}` }</h1>
+        </div>
         <div>
           { loading ? loadingElement : imgDog }
         </div>
