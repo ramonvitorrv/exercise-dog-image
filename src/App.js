@@ -19,6 +19,7 @@ class App extends React.Component {
 
   shouldComponentUpdate(_nextProps, nextState) {
     // const { dogPicture } = this.state;
+
     if (nextState.dogPicture.includes('terrier')) {
       return false;
     }
